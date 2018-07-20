@@ -6,6 +6,8 @@ import com.loopme.ad.LoopMeAd;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubInterstitial;
 
+import java.net.Proxy;
+
 public class AdMopubInterstitial implements MoPubInterstitial.InterstitialAdListener, Ad {
 
     private MoPubInterstitial mInterstitial;
@@ -44,6 +46,11 @@ public class AdMopubInterstitial implements MoPubInterstitial.InterstitialAdList
         if (mInterstitial != null && mInterstitial.isReady()) {
             mInterstitial.show();
         }
+    }
+
+    @Override
+    public void setProxy(Proxy proxy) {
+        //do nothing
     }
 
     @Override

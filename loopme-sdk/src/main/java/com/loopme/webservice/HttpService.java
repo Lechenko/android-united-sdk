@@ -9,6 +9,7 @@ import com.loopme.models.response.ResponseJsonModel;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.Proxy;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -20,8 +21,13 @@ public class HttpService {
 
     private static final String LOG_TAG = HttpService.class.getSimpleName();
     private static final String REQUEST_BODY_MEDIA_TYPE = "application/json; charset=utf-8";
+    private Proxy mProxy;
     private Call<ResponseJsonModel> mFetchAdCall;
     private Call<String> mDownloadCall;
+
+    public HttpService(Proxy proxy) {
+        mProxy = proxy;
+    }
 
     public void cancel() {
         if (mFetchAdCall != null) {
@@ -33,7 +39,7 @@ public class HttpService {
     }
 
     public Response<ResponseJsonModel> fetchAdSync(JSONObject data) throws IOException {
-        Retrofit retrofit = RetrofitFabric.getRetrofit(Constants.RetrofitType.FETCH, null);
+        Retrofit retrofit = RetrofitFabric.getRetrofit(Constants.RetrofitType.FETCH, null, mProxy);
         ApiService service = retrofit.create(ApiService.class);
         RequestBody requestBody = retrieveRequestBody(data);
         mFetchAdCall = service.fetchAd(requestBody);
@@ -41,7 +47,7 @@ public class HttpService {
     }
 
     public Response<String> downLoadSync(ResourceInfo resourceInfo) throws IOException {
-        Retrofit retrofit = RetrofitFabric.getRetrofit(Constants.RetrofitType.DOWNLOAD, resourceInfo.getUrl());
+        Retrofit retrofit = RetrofitFabric.getRetrofit(Constants.RetrofitType.DOWNLOAD, resourceInfo.getUrl(), mProxy);
         ApiService apiService = retrofit.create(ApiService.class);
         mDownloadCall = apiService.downloadFile(resourceInfo.getResourceName());
         return mDownloadCall.execute();

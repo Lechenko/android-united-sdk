@@ -1,5 +1,6 @@
 package com.loopme.tester.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +11,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.loopme.common.LoopMeProxy;
 import com.loopme.tester.R;
 import com.loopme.tester.enums.ViewMode;
 import com.loopme.tester.model.AdSpot;
+import com.loopme.tester.ui.activity.BaseActivity;
+
+import java.net.Proxy;
 
 
 /**
@@ -20,7 +25,7 @@ import com.loopme.tester.model.AdSpot;
  */
 
 public class ActionBarFragment extends BaseFragment implements
-        View.OnClickListener {
+        View.OnClickListener, ProxyDialog.OnProxyChanged, View.OnLongClickListener {
 
     private final static String ARG_VIEW_MODE = "ARG_VIEW_MODE";
     private final static String ARG_AD_SPOT = "ARG_AD_SPOT";
@@ -31,6 +36,7 @@ public class ActionBarFragment extends BaseFragment implements
     private ViewMode mViewMode;
     private AdSpot mAdSpot;
     private TextView mTitleTextView;
+    private BaseActivity mActivity;
 
     public ActionBarFragment() {
     }
@@ -54,6 +60,14 @@ public class ActionBarFragment extends BaseFragment implements
 
     public static ActionBarFragment newInstance() {
         return new ActionBarFragment();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof BaseActivity) {
+            mActivity = (BaseActivity) activity;
+        }
     }
 
     @Override
@@ -81,6 +95,8 @@ public class ActionBarFragment extends BaseFragment implements
         view.findViewById(R.id.action_bar_add_button).setOnClickListener(this);
         view.findViewById(R.id.action_bar_back_to_adspots).setOnClickListener(this);
         view.findViewById(R.id.action_bar_edit_button).setOnClickListener(this);
+        view.findViewById(R.id.action_bar_config_proxy).setOnClickListener(this);
+        view.findViewById(R.id.action_bar_config_proxy).setOnLongClickListener(this);
         mTitleTextView = (TextView) view.findViewById(R.id.action_bar_title);
 
         if (mViewMode != null) {
@@ -174,6 +190,28 @@ public class ActionBarFragment extends BaseFragment implements
                 openEditAdSpotFragment();
                 break;
             }
+            case R.id.action_bar_config_proxy: {
+                showProxySettings();
+                break;
+            }
+        }
+    }
+
+    private void showProxySettings() {
+        new ProxyDialog(mActivity, this).show();
+    }
+
+    @Override
+    public void onProxyChanged(Proxy newProxy) {
+        if (mActivity != null) {
+            mActivity.setCurrentProxy(newProxy);
+        }
+    }
+
+    @Override
+    public void saveCurrentChoice(LoopMeProxy newProxy) {
+        if (mActivity != null) {
+            mActivity.saveAsCurrentLoopMeProxy(newProxy);
         }
     }
 
@@ -206,6 +244,19 @@ public class ActionBarFragment extends BaseFragment implements
         if (mOnActionBarFragmentListener != null) {
             mOnActionBarFragmentListener.onOpenInfo();
         }
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        if (view.getId() == R.id.action_bar_config_proxy) {
+            showAddProxyDialog();
+            return true;
+        }
+        return false;
+    }
+
+    private void showAddProxyDialog() {
+        new AddProxyDialog(mActivity).show();
     }
 
     public interface OnActionBarFragmentListener {

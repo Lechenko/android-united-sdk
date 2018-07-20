@@ -38,13 +38,13 @@ public class ManualView implements View.OnClickListener, AdListener, AdapterView
     private TextView mLoadButton;
     private TextView mShowButton;
     private ScrollView mScrollView;
-    private Activity mActivity;
+    private BaseActivity mActivity;
     private boolean mIsFirstLaunch = true;
     private boolean mIsAutoLoadingEnabled;
     private FrameLayout mBanner;
 
 
-    public ManualView(View layout, AdSpot adSpot, Activity activity) {
+    public ManualView(View layout, AdSpot adSpot, BaseActivity activity) {
         mRootView = layout;
         mAdSpot = adSpot;
         mActivity = activity;
@@ -357,7 +357,7 @@ public class ManualView implements View.OnClickListener, AdListener, AdapterView
     }
 
     private boolean getAutoLoadingState() {
-        return mActivity != null && mActivity instanceof BaseActivity && ((BaseActivity) mActivity).getAutoLoadingState();
+        return mActivity != null && mActivity.getAutoLoadingState();
     }
 
     private void initAd() {
@@ -369,6 +369,7 @@ public class ManualView implements View.OnClickListener, AdListener, AdapterView
 
         if (adType == AdType.INTERSTITIAL && (adSdk == AdSdk.LOOPME || adSdk == AdSdk.LMVPAID)) {
             mAd = initializeLoopmeInterstitial();
+            mAd.setProxy(mActivity.getCurrentProxy());
         } else if (adType == AdType.INTERSTITIAL && adSdk == AdSdk.MOPUB) {
             mAd = initializeMopubInterstitial();
         } else if (adType == AdType.BANNER && (adSdk == AdSdk.LOOPME || adSdk == AdSdk.LMVPAID)) {

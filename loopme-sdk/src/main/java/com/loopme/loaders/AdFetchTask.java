@@ -53,7 +53,7 @@ public class AdFetchTask implements Runnable, Observer {
     public AdFetchTask(LoopMeAd loopMeAd, AdFetcherListener adFetcherListener) {
         mLoopMeAd = loopMeAd;
         mAdFetcherListener = adFetcherListener;
-        mHttpService = new HttpService();
+        mHttpService = new HttpService(loopMeAd.getProxy());
         mTimers = new Timers(this);
         mExecutorService = ExecutorHelper.getExecutor();
     }
@@ -164,7 +164,7 @@ public class AdFetchTask implements Runnable, Observer {
     private void launchVastFetcher(ResponseJsonModel body) {
         String vastString = XmlParseService.getVastString(body);
         VastWrapperFetcher.Listener listener = initVastFetcherListener();
-        mVastWrapperFetcher = new VastWrapperFetcher(vastString, listener);
+        mVastWrapperFetcher = new VastWrapperFetcher(vastString, listener, mLoopMeAd.getProxy());
         mVastWrapperFetcher.start();
     }
 

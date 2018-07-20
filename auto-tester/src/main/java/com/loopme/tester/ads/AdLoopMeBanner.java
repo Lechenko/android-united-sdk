@@ -8,6 +8,8 @@ import com.loopme.LoopMeBanner;
 import com.loopme.ad.LoopMeAd;
 import com.loopme.common.LoopMeError;
 
+import java.net.Proxy;
+
 public class AdLoopMeBanner implements LoopMeBanner.Listener, Ad {
 
     private LoopMeBanner mBanner;
@@ -87,6 +89,13 @@ public class AdLoopMeBanner implements LoopMeBanner.Listener, Ad {
     public void setPreferredAd(LoopMeAd.Type type) {
         if (mBanner != null) {
             mBanner.setPreferredAd(type);
+        }
+    }
+
+    @Override
+    public void setProxy(Proxy proxy) {
+        if (mBanner != null) {
+            mBanner.setProxy(proxy);
         }
     }
 

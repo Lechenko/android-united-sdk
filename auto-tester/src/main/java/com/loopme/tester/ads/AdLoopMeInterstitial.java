@@ -6,6 +6,8 @@ import com.loopme.LoopMeInterstitial;
 import com.loopme.ad.LoopMeAd;
 import com.loopme.common.LoopMeError;
 
+import java.net.Proxy;
+
 public class AdLoopMeInterstitial implements LoopMeInterstitial.Listener, Ad {
 
     private LoopMeInterstitial mInterstitial;
@@ -25,6 +27,13 @@ public class AdLoopMeInterstitial implements LoopMeInterstitial.Listener, Ad {
             mInterstitial.load();
         } else {
             mAdListener.onLoadFail("Interstitial is null");
+        }
+    }
+
+    @Override
+    public void setProxy(Proxy proxy) {
+        if (mInterstitial != null) {
+            mInterstitial.setProxy(proxy);
         }
     }
 

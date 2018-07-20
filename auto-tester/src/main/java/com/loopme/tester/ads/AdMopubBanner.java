@@ -7,6 +7,8 @@ import com.loopme.ad.LoopMeAd;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 
+import java.net.Proxy;
+
 public class AdMopubBanner implements Ad, MoPubView.BannerAdListener {
 
     private MoPubView mMoPubView;
@@ -40,6 +42,11 @@ public class AdMopubBanner implements Ad, MoPubView.BannerAdListener {
 
     @Override
     public void setPreferredAd(LoopMeAd.Type type) {
+    }
+
+    @Override
+    public void setProxy(Proxy proxy) {
+        //do nothing
     }
 
     @Override

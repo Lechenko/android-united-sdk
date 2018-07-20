@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/dialog_add_proxy_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Add your proxy"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_20sp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/dialog_add_proxy_name_edit_text"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:hint="Proxy owner"
+            android:textColor="@color/black" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/dialog_add_proxy_host_edit_text"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:hint="Proxy host"
+            android:inputType="number"
+            android:text="10.0.0."
+            android:textColor="@color/black" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/dialog_add_proxy_port_edit_text"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:hint="Proxy port"
+            android:inputType="number"
+            android:text="8888"
+            android:textColor="@color/black" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/dialog_add_proxy_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/dialog_add_proxy_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="Save" />
+    </LinearLayout>
+
+</LinearLayout>

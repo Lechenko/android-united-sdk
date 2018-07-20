@@ -2,6 +2,8 @@ package com.loopme.tester.ads;
 
 import com.loopme.ad.LoopMeAd;
 
+import java.net.Proxy;
+
 public interface Ad {
 
     void loadAd();
@@ -21,4 +23,6 @@ public interface Ad {
     boolean isShowing();
 
     void setPreferredAd(LoopMeAd.Type type);
+
+    void setProxy(Proxy proxy);
 }

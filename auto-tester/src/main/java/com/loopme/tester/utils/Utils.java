@@ -11,6 +11,7 @@ import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.TypedValue;
 
+import com.loopme.common.LoopMeProxy;
 import com.loopme.tester.Constants;
 import com.loopme.tester.loaders.AdSpotCursorLoader;
 import com.loopme.tester.model.AdSpot;
@@ -75,4 +76,21 @@ public class Utils {
         return Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT;
     }
 
+    public static String[] asStringArray(ArrayList<LoopMeProxy> mSavedProxyArray) {
+        String[] proxyAsArray = new String[mSavedProxyArray.size()];
+        for (int i = 0; i < mSavedProxyArray.size(); i++) {
+            proxyAsArray[i] = mSavedProxyArray.get(i).getName();
+        }
+        return proxyAsArray;
+    }
+
+    public static int getPosition(ArrayList<LoopMeProxy> savedProxyArray, LoopMeProxy currentLoopMeProxy) {
+        for (int i = 0; i < savedProxyArray.size(); i++) {
+            LoopMeProxy proxy = savedProxyArray.get(i);
+            if (proxy.getName().equalsIgnoreCase(currentLoopMeProxy.getName())) {
+                return i;
+            }
+        }
+        return 0;
+    }
 }

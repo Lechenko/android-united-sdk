@@ -11,6 +11,8 @@ import com.loopme.debugging.Params;
 import com.loopme.tracker.partners.LoopMeTracker;
 import com.loopme.utils.Utils;
 
+import java.net.Proxy;
+
 public abstract class AdWrapper extends AdConfig {
     private static final String LOG_TAG = AdWrapper.class.getSimpleName();
     private boolean mIsAutoLoadingPaused;
@@ -337,5 +339,14 @@ public abstract class AdWrapper extends AdConfig {
 
     private boolean isNeedSendShowEvent() {
         return mLoadingCounter != mShowCounter;
+    }
+
+    public void setProxy(Proxy proxy) {
+        if (mFirstLoopMeAd != null) {
+            mFirstLoopMeAd.setProxy(proxy);
+        }
+        if (mSecondLoopMeAd != null) {
+            mSecondLoopMeAd.setProxy(proxy);
+        }
     }
 }

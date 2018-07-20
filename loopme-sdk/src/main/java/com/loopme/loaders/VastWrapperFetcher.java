@@ -20,6 +20,7 @@ import com.loopme.webservice.HttpService;
 import com.loopme.xml.vast4.Wrapper;
 
 import java.io.IOException;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +41,10 @@ public class VastWrapperFetcher {
     protected Handler mHandler = new Handler(Looper.getMainLooper());
     private volatile boolean mIsStopped;
 
-    public VastWrapperFetcher(String vastString, Listener listener) {
+    public VastWrapperFetcher(String vastString, Listener listener, Proxy proxy) {
         mVastString = vastString;
         mListener = listener;
-        mHttpService = new HttpService();
+        mHttpService = new HttpService(proxy);
     }
 
     public void start() {

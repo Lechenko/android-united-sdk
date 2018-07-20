@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
+import com.loopme.common.LoopMeProxy;
 import com.loopme.tester.PreferencesService;
 import com.loopme.tester.R;
 import com.loopme.tester.handlers.AdSpotAsyncHandler;
@@ -24,6 +26,7 @@ import com.loopme.tester.ui.fragment.screen.InfoFragment;
 import com.loopme.tester.ui.fragment.screen.LogFragment;
 import com.loopme.tester.utils.UiUtils;
 
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Observable;
@@ -59,6 +62,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     public static final int SCREEN_LOG = 6;
 
     protected Deque<ScreenStackModel> mScreenStack = new LinkedBlockingDeque<>();
+    private Proxy mCurrentProxy;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +71,7 @@ public class BaseActivity extends AppCompatActivity implements Observer {
         mAdSpotAsyncHandler = new AdSpotAsyncHandler(getContentResolver());
         startBackgroundThread();
         mPrefs = new PreferencesService(this);
+        setCurrentProxy(mPrefs.getCurrentLoopMeProxy().toJavaProxy());
     }
 
     public void setAutoLoadingState(boolean autoLoadingState) {
@@ -235,6 +240,35 @@ public class BaseActivity extends AppCompatActivity implements Observer {
     public void closeCurrentScreen() {
         makeTransaction(new CloseCurrentScreenRunnable());
         hideSoftKeyBoard();
+    }
+
+    public ArrayList<LoopMeProxy> getSavedProxy() {
+        return mPrefs.getSavedProxyArray();
+    }
+
+    public void setCurrentProxy(Proxy proxy) {
+        mCurrentProxy = proxy;
+    }
+
+    public Proxy getCurrentProxy() {
+        return mCurrentProxy;
+    }
+
+    public void saveAsCurrentLoopMeProxy(LoopMeProxy loopMeProxy) {
+        if (mPrefs != null) {
+            mPrefs.saveAsCurrentLoopMeProxy(loopMeProxy);
+        }
+    }
+
+    public LoopMeProxy getCurrentLoopMeProxy() {
+        if (mPrefs != null) {
+            return mPrefs.getCurrentLoopMeProxy();
+        }
+        return LoopMeProxy.NO_PROXY;
+    }
+
+    public void addNewPoxy(LoopMeProxy proxy) {
+        Toast.makeText(this, proxy.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public class CloseCurrentScreenRunnable implements Runnable {

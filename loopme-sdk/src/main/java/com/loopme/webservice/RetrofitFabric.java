@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loopme.Constants;
 
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -20,21 +21,22 @@ public class RetrofitFabric {
     private RetrofitFabric() {
     }
 
-    public static Retrofit getRetrofit(Constants.RetrofitType type, String baseUrl) {
+    public static Retrofit getRetrofit(Constants.RetrofitType type, String baseUrl, Proxy proxy) {
         switch (type) {
             case DOWNLOAD: {
-                return getDownloadRetrofit(baseUrl);
+                return getDownloadRetrofit(baseUrl, proxy);
             }
             default: {
-                return getFetchRetrofit();
+                return getFetchRetrofit(proxy);
             }
         }
     }
 
-    private static Retrofit getDownloadRetrofit(String baseUrl) {
+    private static Retrofit getDownloadRetrofit(String baseUrl, Proxy proxy) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .proxy(proxy)
                 .addNetworkInterceptor(new HeaderInterceptor())
                 .build();
         return new Retrofit
@@ -45,10 +47,11 @@ public class RetrofitFabric {
                 .build();
     }
 
-    private static Retrofit getFetchRetrofit() {
+    private static Retrofit getFetchRetrofit(Proxy proxy) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .proxy(proxy)
                 .addNetworkInterceptor(new HeaderInterceptor())
                 .build();
         return new Retrofit.Builder()

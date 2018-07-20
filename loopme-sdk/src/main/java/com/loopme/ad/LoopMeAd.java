@@ -18,7 +18,6 @@ import com.loopme.controllers.display.BaseTrackableController;
 import com.loopme.controllers.display.DisplayControllerLoopMe;
 import com.loopme.controllers.display.DisplayControllerVast;
 import com.loopme.controllers.display.DisplayControllerVpaid;
-import com.loopme.controllers.interfaces.DisplayController;
 import com.loopme.debugging.LiveDebug;
 import com.loopme.gdpr.GdprChecker;
 import com.loopme.loaders.AdFetchTask;
@@ -30,6 +29,7 @@ import com.loopme.tracker.partners.LoopMeTracker;
 import com.loopme.utils.Utils;
 import com.loopme.utils.ValidationHelper;
 
+import java.net.Proxy;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -56,6 +56,7 @@ public abstract class LoopMeAd extends AutoLoadingConfig implements AdTargeting,
     protected boolean mIsReady;
     private int mAdId;
     private volatile boolean mIsReverseOrientationRequest;
+    private Proxy mProxy;
 
     public LoopMeAd(Activity context, String appKey) {
         if (context == null || TextUtils.isEmpty(appKey)) {
@@ -500,6 +501,14 @@ public abstract class LoopMeAd extends AutoLoadingConfig implements AdTargeting,
         } else {
             rebuildView(newContainerView);
         }
+    }
+
+    public void setProxy(Proxy proxy) {
+        mProxy = proxy;
+    }
+
+    public Proxy getProxy() {
+        return mProxy;
     }
 
     public enum Type {

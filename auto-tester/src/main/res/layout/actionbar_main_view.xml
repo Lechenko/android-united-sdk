@@ -8,15 +8,15 @@
         android:id="@+id/action_bar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/action_bar_title_margin_start"
-        android:layout_marginEnd="@dimen/action_bar_title_margin_end"
         android:layout_centerVertical="true"
-        android:text="@string/ad_spots"
-        android:maxLines="1"
+        android:layout_marginEnd="@dimen/action_bar_title_margin_end"
+        android:layout_marginStart="@dimen/action_bar_title_margin_start"
         android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/ad_spots"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_16sp"
-        android:textAlignment="center"
         android:textStyle="bold" />
 
     <RelativeLayout
@@ -38,6 +38,17 @@
             android:padding="@dimen/action_bar_info_button_padding"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_action_about" />
+
+        <ImageView
+            android:id="@+id/action_bar_config_proxy"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/action_bar_add_button"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/ic_proxy" />
 
 
         <ImageView
